@@ -30,16 +30,31 @@ Returns a collection of events matching specified criteria
 
         [
             {
-            "id":123,
+            "id":0,
             "source_url":"http://events.foo.org",
-            "title":"someevent",
-            "location":"711 e monument ave, Dayton, OH ",
-            "date":"",
-            "time":"",
+            "title":"Really Cool Event",
+            "description": "This is the best event ever. There is prizes, ponies and water guns!",
+            "location":"711 e monument ave, Dayton, OH 45402",
+            "start":"2011-10-11T13:00:00",
+            "end":"2011-10-12T15:00:00",
             },
             {
+            "id":1,
+            "source_url":"http://events.foo.org",
+            "title":"Even Better Event2",
+            "description": "This is the best event ever.",
+            "location":"711 e monument ave, Dayton, OH 45402",
+            "start":"2011-10-12T13:00:00",
+            "end":"2011-10-12T15:00:00",
             },
             {
+            "id":2,
+            "source_url":"http://events.foo.org",
+            "title":"Mega Cool Event",
+            "description": "Some cool stuff going on here!",
+            "location":"711 e monument ave, Dayton, OH 45402",
+            "start":"2011-10-13T13:00:00",
+            "end":"2011-10-13T15:00:00",
             }
         
         ]
@@ -50,8 +65,15 @@ Find an event by id
     + id (required, number) ... the unique identifier of the event
 + Response 200 (application/hal+json)
     
-        {"some":"event"
-        }
+            {
+            "id":2,
+            "source_url":"http://events.foo.org",
+            "title":"Mega Cool Event",
+            "description": "Some cool stuff going on here!",
+            "location":"711 e monument ave, Dayton, OH 45402",
+            "start":"2011-10-13T13:00:00",
+            "end":"2011-10-13T15:00:00",
+            }
 
 # Group Sources
 Sources being included for aggregation. This resource is *READ-ONLY*.
@@ -62,11 +84,29 @@ A collection of sources
     + start=`1` (optional, number) ... Starting index
     + limit=`20` (optional, number) ... Number of items to return. ***Maximum value is 200***
     
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
 
         [
-        {},
-        {}
+        {"source_url":"http://events.foo.org",
+        "id":12,
+        "bio":"This group event "
+        "contact":{
+            "name":"jimbo",
+            "email":"jimbo@foo.org"
+        },
+        "tags":[ "tag1", "tag2", "tag3"
+        ]    
+        },
+        {"source_url":"http://events.bar.org",
+        "id":13,
+        "bio":"This group event"
+        "contact":{
+            "name":"janebo",
+            "email":"janebo@bar.org"
+        },
+        "tags":[ "tag1", "tag2", "tag3"
+        ]    
+        }
         ]
 
 ## GET /sources/{id}
@@ -75,5 +115,13 @@ An individual source.
     + id (required, number) ... The unique source id
 + Response 200 (application/hal+json)
 
-        {"to":"do"
+        {"source_url":"http://events.foo.org",
+        "id":12,
+        "bio":"This group event "
+        "contact":{
+            "name":"jimbo",
+            "email":"jimbo@foo.org"
+        },
+        "tags":[ "tag1", "tag2", "tag3"
+        ]    
         }
