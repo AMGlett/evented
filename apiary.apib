@@ -1,47 +1,79 @@
 FORMAT: 1A
-HOST: http://www.google.com
+HOST: http://evented.apiary-mock.com
 
-# e-vented
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+# Evented
+Events from around the Dayton region aggregated
 
-# Group Notes
-Notes related resources of the **Notes API**
+## Key Resources
+* **Events**: Events that are occuring
+* **Sources**: Sources (on the web) of events which are ingested into the system.
 
-## Notes Collection [/notes]
-### List all Notes [GET]
-+ Response 200 (application/json)
+# Group Events
+Events that are happening. This resource is *READ-ONLY*.
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
-
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
-
+## GET /events?{complete,q,start,limit,order}
+Returns a collection of events matching specified criteria
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+    + complete = `false` (optional, string) ... True if complete events should be included in the results, false otherwise.
+        +Values
+            + `true`
+            + `false`
+    + q (optional, string) ... A free-text string
+    + start=`1` (optional, number) ... Starting index
+    + limit=`20` (optional, number) ... Number of items to return. ***Maximum value is 200***
+    + order=`asc` (optional, text) ... Sort order of collection response
 
-### Retrieve a Note [GET]
+        + Values
+            + `asc`
+            + `desc`
 + Response 200 (application/json)
 
-    + Header
+        [
+            {
+            "id":123,
+            "source_url":"http://events.foo.org",
+            "title":"someevent",
+            "location":"711 e monument ave, Dayton, OH ",
+            "date":"",
+            "time":"",
+            },
+            {
+            },
+            {
+            }
+        
+        ]
 
-            X-My-Header: The Value
+## GET /event/{id}
+Find an event by id
++ Parameter
+    + id (required, number) ... the unique identifier of the event
++ Response 200 (application/hal+json)
+    
+        {"some":"event"
+        }
 
-    + Body
+# Group Sources
+Sources being included for aggregation. This resource is *READ-ONLY*.
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+## GET /sources?{start,limit}
+A collection of sources
++ Parameter
+    + start=`1` (optional, number) ... Starting index
+    + limit=`20` (optional, number) ... Number of items to return. ***Maximum value is 200***
+    
++ Response 200 (application/hal+json)
 
-### Remove a Note [DELETE]
-+ Response 204
+        [
+        {},
+        {}
+        ]
+
+## GET /sources/{id}
+An individual source.
++ Parameter
+    + id (required, number) ... The unique source id
++ Response 200 (application/hal+json)
+
+        {"to":"do"
+        }
